@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel</title>
+    <style>
+        /* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1.title_page__faclok__ {
+    text-align: center;
+    font-size: 24px;
+    margin: 20px 0;
+    color: #444;
+}
+
+/* Стили для формы */
+.mini_form__faclok__ {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    gap: 10px;
+}
+
+.input_url__faclok__ {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button_create_url__faclok__ {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.button_create_url__faclok__:hover {
+    background-color: #0056b3;
+}
+
+/* Стили для списка изображений */
+ul.images__faclok__ {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.images__faclok__ .imgItem__faclok__ {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.images__faclok__ .imgItem__faclok__:hover {
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для кнопок */
+.update_page__faclok__ {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.update_page__faclok__:hover {
+    background-color: #218838;
+}
+
+/* Стили для контейнера с кодом */
+.container_code__faclok__ {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container_code__faclok__ code {
+    display: block;
+    font-family: monospace;
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.copy_code__faclok__ {
+    display: block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.copy_code__faclok__:hover {
+    background-color: #117a8b;
+}
+
+/* Стили для превью */
+.preview_module__faclok__ {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-height: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    </style>
+</head>
+
+<body>
+    <h1 class="title_page__faclok__">Генерация скрипта для карусели</h1>
+    <div class="mini_form__faclok__">
+        <input id="create_img" class="input_url__faclok__" type="text" />
+        <button class="button_create_url__faclok__" onclick="createImage()">Добавить</button>
+    </div>
+    <ul class="images__faclok__" id="images">
+    </ul>
+    <button class="update_page__faclok__" onclick="createHtml()">Обновить</button>
+    <div class="container_code__faclok__">
+        <code id="html_code">
+        
+        </code>
+        <button class="copy_code__faclok__" onclick="CopyContent()">Скопировать</button>
+    </div>
+    <div id="preview" class="preview_module__faclok__">
+
+    </div>
+    <script>
+        async function CopyContent() {
+
+             const SCRIPT = "<script>\r\n\r\n\r\n      const carousel = document.querySelector(\".carousel_faclok\");\r\n      let carouselItems = document.querySelectorAll(\".carousel__item\");\r\n      const [btnLeftCarousel, btnRightCarousel] = document.querySelectorAll(\r\n        \".carousel-button\"\r\n      );\r\n      let carouselCount = carouselItems.length;\r\n      let pos = 0;\r\n      let translateX = 0;\r\n\r\n      btnLeftCarousel.addEventListener(\"click\", (e) => {\r\n        let calculate = pos > 0 ? (pos - 1) % carouselCount : carouselCount;\r\n        if (pos > 0) translateX = pos === 1 ? 0 : translateX - 100;\r\n        else if (pos <= 0) {\r\n          translateX = 100 * (carouselCount - 1);\r\n          calculate = carouselCount - 1;\r\n        }\r\n\r\n        pos = slide({\r\n          show: calculate,\r\n          disable: pos,\r\n          translateX: translateX\r\n        });\r\n      });\r\n\r\n      btnRightCarousel.addEventListener(\"click\", (e) => {\r\n        let calculate = (pos + 1) % carouselCount;\r\n        if (pos >= carouselCount - 1) {\r\n          calculate = 0;\r\n          translateX = 0;\r\n        } else {\r\n          translateX += 100;\r\n        }\r\n\r\n        pos = slide({\r\n          show: calculate,\r\n          disable: pos,\r\n          translateX: translateX\r\n        });\r\n      });\r\n\r\n      function slide(options) {\r\n        function active(_pos) {\r\n          carouselItems[_pos].classList.toggle(\"active\");\r\n        }\r\n\r\n        function inactive(_pos) {\r\n          carouselItems[_pos].classList.toggle(\"active\");\r\n        }\r\n\r\n        inactive(options.disable);\r\n        active(options.show);\r\n\r\n        document.querySelectorAll(\".carousel__item\").forEach((item, index) => {\r\n          if (index === options.show) {\r\n            item.style.transform = `translateX(-${options.translateX}%) scale(1)`;\r\n          } else {\r\n            item.style.transform = `translateX(-${options.translateX}%) scale(1)`;\r\n          }\r\n        });\r\n\r\n        return options.show;\r\n      }\r\n    <\/script>";
+
+    try {
+      await navigator.clipboard.writeText(document.getElementById('preview').innerHTML + SCRIPT);
+    } catch (err) {
+      alert('Ошибка: ', err);
+    }
+  }
+        function createHtml(){
+            const images = document.getElementsByClassName('imgItem__faclok__');
+
+             const SCRIPT = "<script>\r\n\r\n\r\n      const carousel = document.querySelector(\".carousel_faclok\");\r\n      let carouselItems = document.querySelectorAll(\".carousel__item\");\r\n      const [btnLeftCarousel, btnRightCarousel] = document.querySelectorAll(\r\n        \".carousel-button\"\r\n      );\r\n      let carouselCount = carouselItems.length;\r\n      let pos = 0;\r\n      let translateX = 0;\r\n\r\n      btnLeftCarousel.addEventListener(\"click\", (e) => {\r\n        let calculate = pos > 0 ? (pos - 1) % carouselCount : carouselCount;\r\n        if (pos > 0) translateX = pos === 1 ? 0 : translateX - 100;\r\n        else if (pos <= 0) {\r\n          translateX = 100 * (carouselCount - 1);\r\n          calculate = carouselCount - 1;\r\n        }\r\n\r\n        pos = slide({\r\n          show: calculate,\r\n          disable: pos,\r\n          translateX: translateX\r\n        });\r\n      });\r\n\r\n      btnRightCarousel.addEventListener(\"click\", (e) => {\r\n        let calculate = (pos + 1) % carouselCount;\r\n        if (pos >= carouselCount - 1) {\r\n          calculate = 0;\r\n          translateX = 0;\r\n        } else {\r\n          translateX += 100;\r\n        }\r\n\r\n        pos = slide({\r\n          show: calculate,\r\n          disable: pos,\r\n          translateX: translateX\r\n        });\r\n      });\r\n\r\n      function slide(options) {\r\n        function active(_pos) {\r\n          carouselItems[_pos].classList.toggle(\"active\");\r\n        }\r\n\r\n        function inactive(_pos) {\r\n          carouselItems[_pos].classList.toggle(\"active\");\r\n        }\r\n\r\n        inactive(options.disable);\r\n        active(options.show);\r\n\r\n        document.querySelectorAll(\".carousel__item\").forEach((item, index) => {\r\n          if (index === options.show) {\r\n            item.style.transform = `translateX(-${options.translateX}%) scale(1)`;\r\n          } else {\r\n            item.style.transform = `translateX(-${options.translateX}%) scale(1)`;\r\n          }\r\n        });\r\n\r\n        return options.show;\r\n      }\r\n    <\/script>";
+            const START_BODY = "<div class=\"container_faclok\">\r\n      <div class=\"carousel_faclok\">";
+            const END_BODY = "</div>\r\n      <div class=\"carousel__buttons\">\r\n        <button type=\"button\" class=\"carousel-button\">&#10094;</button>\r\n        <button type=\"button\" class=\"carousel-button\">&#10095;</button>\r\n      </div>\r\n    </div>";
+            const START_STYLE = "   <style>\r\n      * {\r\n        margin: 0;\r\n        padding: 0;\r\n        font-family: sans-serif;\r\n        box-sizing: border-box;\r\n      }\r\n\r\n      .container_faclok {\r\nwidth: 100%;\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: center;\r\n        align-items: center;\r\n      }\r\n      .carousel__buttons {\r\n        width: 80%;\r\n        margin: 10px 0;\r\n        display: flex;\r\n      }\r\n      .carousel__buttons .carousel-button:focus {\r\n        background-color: rgb(154, 163, 247);\r\n      }\r\n      .carousel__buttons .carousel-button:hover {\r\n        background-color: #ddd;\r\n      }\r\n      .carousel__buttons .carousel-button:not(:nth-last-child()) {\r\n        margin-right: 10px;\r\n      }\r\n      .carousel__buttons .carousel-button {\r\n        font-size: 1rem;\r\n        margin-right: 10px;\r\n        box-shadow: 0 4px 8px #eee;\r\n        padding: 0.5rem 0.8rem;\r\n        cursor: pointer;\r\n        border: 1px solid #ddd;\r\n        color: #454545;\r\n        border-radius: 50%;\r\n        height: 40px;\r\n        width: 40px;\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        outline: none;\r\n      }\r\n\r\n      .carousel_faclok {\r\n        width: 100%;\r\nheight: 440px;\r\n        border: 1px solid rgb(206, 206, 206);\r\n        overflow: hidden;\r\n        display: grid;\r\n        border-radius: 5px;\r\n        box-shadow: 0 4px 8px #eee;\r\n        grid-template-columns: repeat(";
+            const  END_STYLE = ", 100%);\r\n      }\r\n      .carousel_faclok .carousel__item.active {\r\n        transform: scale(1) translateX(-0%);\r\n      }\r\n      .carousel_faclok .carousel__item {\r\n        width: 100%;\r\n        transform: translateX(-0%) scale(1);\r\n        border-radius: 5px;\r\n        transition: all 0.7s ease;\r\n        display: flex;\r\n\r\n        text-transform: uppercase;\r\n        justify-content: center;\r\n\r\n        align-items: center;\r\n        height: 440px;\r\n      }\r\n@media (max-width: 700px) {\r\n  .carousel_faclok, .carousel__item{\r\n    height: 220px;\r\n  }\r\n}\r\n    </style>";
+        
+            const container = document.getElementById('preview');
+
+            container.innerHTML = '';
+            container.innerHTML = START_STYLE + images.length + END_STYLE;
+            let content = '';
+            for (let i = 0; i < images.length; i++) {
+                const element = images[i];
+
+                if(element.innerHTML.charAt(0) == '.')
+                    element.innerHTML = element.innerHTML.substring(1);
+
+                if(element.innerHTML.charAt(0) != '/')
+                    element.innerHTML = '/' + element.innerHTML;
+
+                content += `<div class=\"carousel__item ${i == 0 ? 'active' : ''}\">\r\n         <img style=\"width: 100%; height: 100%; object-fit: cover;\" src=\"${'https://utgt-pgups.ru' + element.innerHTML}\" />\r\n        </div>`;
+            }
+            container.innerHTML += START_BODY + content + END_BODY;
+
+            document.getElementById('html_code').innerHTML = container.innerHTML.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll(">", '&gt;') + SCRIPT;
+            updatePageScriptLoad();
+        }
+        function createImage() {
+            const urlInput = document.getElementById('create_img');
+
+            const url = urlInput.value.trim();
+
+            if (url == '') {
+                alert('Поле не может быть пустым');
+                return;
+            }
+
+            const container = document.getElementById('images');
+            const images = document.getElementsByClassName('imgItem__faclok__');
+
+            container.innerHTML += `<li class="imgItem__faclok__" id="img${images.length + 1}" onclick="removeImage('img${images.length + 1}')">${url}</li>`;
+            urlInput.value = '';
+        }
+        function removeImage(id) {
+            const img = document.getElementById(id);
+            img.remove();
+        }
+    </script>
+    <script>
+        function updatePageScriptLoad(){
+
+      const carousel = document.querySelector(".carousel_faclok");
+      let carouselItems = document.querySelectorAll(".carousel__item");
+      const [btnLeftCarousel, btnRightCarousel] = document.querySelectorAll(
+        ".carousel-button"
+      );
+      let carouselCount = carouselItems.length;
+      let pos = 0;
+      let translateX = 0;
+
+      btnLeftCarousel.addEventListener("click", (e) => {
+        let calculate = pos > 0 ? (pos - 1) % carouselCount : carouselCount;
+        if (pos > 0) translateX = pos === 1 ? 0 : translateX - 100;
+        else if (pos <= 0) {
+          translateX = 100 * (carouselCount - 1);
+          calculate = carouselCount - 1;
+        }
+
+        pos = slide({
+          show: calculate,
+          disable: pos,
+          translateX: translateX
+        });
+      });
+
+      btnRightCarousel.addEventListener("click", (e) => {
+        let calculate = (pos + 1) % carouselCount;
+        if (pos >= carouselCount - 1) {
+          calculate = 0;
+          translateX = 0;
+        } else {
+          translateX += 100;
+        }
+
+        pos = slide({
+          show: calculate,
+          disable: pos,
+          translateX: translateX
+        });
+      });
+
+      function slide(options) {
+        function active(_pos) {
+          carouselItems[_pos].classList.toggle("active");
+        }
+
+        function inactive(_pos) {
+          carouselItems[_pos].classList.toggle("active");
+        }
+
+        inactive(options.disable);
+        active(options.show);
+
+        document.querySelectorAll(".carousel__item").forEach((item, index) => {
+          if (index === options.show) {
+            item.style.transform = `translateX(-${options.translateX}%) scale(1)`;
+          } else {
+            item.style.transform = `translateX(-${options.translateX}%) scale(1)`;
+          }
+        });
+
+        return options.show;
+      }
+        }
+    </script>
+</body>
+
+</html>
