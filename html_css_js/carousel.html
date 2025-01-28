@@ -191,13 +191,7 @@ ul.images__faclok__ {
             for (let i = 0; i < images.length; i++) {
                 const element = images[i];
 
-                if(element.innerHTML.charAt(0) == '.')
-                    element.innerHTML = element.innerHTML.substring(1);
-
-                if(element.innerHTML.charAt(0) != '/')
-                    element.innerHTML = '/' + element.innerHTML;
-
-                content += `<div class=\"carousel__item ${i == 0 ? 'active' : ''}\">\r\n         <img style=\"width: 100%; height: 100%; object-fit: cover;\" src=\"${'https://utgt-pgups.ru' + element.innerHTML}\" />\r\n        </div>`;
+                content += `<div class=\"carousel__item ${i == 0 ? 'active' : ''}\">\r\n         <img style=\"width: 100%; height: 100%; object-fit: cover;\" src=\"${element.innerHTML}\" />\r\n        </div>`;
             }
             container.innerHTML += START_BODY + content + END_BODY;
 
